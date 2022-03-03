@@ -16,6 +16,11 @@ app.get("/", (req, res) => {
   res.send("Hello Justin's World !");
 });
 
+app.get("/urls/:shortURL", (req, res) => {
+  const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
+  res.render("urls_show", templateVars);
+});
+
 app.get("/url/:shortUrl", (req, res) => {
   const shortUrl = req.params.shortUrl
   console.log('res.redirect(urlDatabase[shortUrl]) :>> ', res.redirect(urlDatabase[shortUrl]));
