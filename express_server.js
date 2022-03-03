@@ -5,7 +5,8 @@ const PORT = 8082; // default port 8082
 
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com"
+  "9sm5xK": "http://www.google.com",
+  "whatthe": "www.gamefacephtoo.ca"
 };
 const greeting = {
   "german": "Gooden Morgan",
