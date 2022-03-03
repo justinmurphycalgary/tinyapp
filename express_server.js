@@ -16,10 +16,18 @@ app.get("/", (req, res) => {
   res.send("Hello Justin's World !");
 });
 
+app.get("/url/:shortUrl", (req, res) => {
+  const shortUrl = req.params.shortUrl
+  console.log('res.redirect(urlDatabase[shortUrl]) :>> ', res.redirect(urlDatabase[shortUrl]));
+res.redirect(urlDatabase[shortUrl])
+});
+
 app.get("/urls", (req, res) => {
   const myData = { urls: urlDatabase };
   res.render('urls_index', myData)
 });
+
+
 
 app.get("/greeting", (req, res) => {
   const myData = { greeting: greeting };
