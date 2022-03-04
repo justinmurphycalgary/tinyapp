@@ -24,10 +24,6 @@ const urlDatabase = {
   "whatthe": "www.gamefacephtoo.ca"
 };
 
-app.get("/", (req, res) => {
-  res.send("Hello Justin's World !");
-});
-
 
 app.get("/urls", (req, res) => {
   const myData = { urls: urlDatabase };
@@ -41,30 +37,39 @@ app.get("/urls/new", (req, res) => {
 app.get("/urls.json", (req, res) => {
   res.json(urlDatabase);
 });
+  
 
-
-app.get("/redirect/:shortURL", (req, res) => {
+app.get("/details/:shortURL", (req, res) => {
   const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
   res.render("urls_show", templateVars);
 });
 
-app.get("/url/:shortUrl", (req, res) => {
+app.get("/redirect/:shortUrl", (req, res) => {
   const shortUrl = req.params.shortUrl
   console.log('res.redirect(urlDatabase[shortUrl]) :>> ', res.redirect(urlDatabase[shortUrl]));
 res.redirect(urlDatabase[shortUrl])
 });
 
-app.post("/urls", (req, res) => {
+app.post("/newUrl", (req, res) => {
   const newId  =  generateRandomString();
   console.log(req.body);  // Log the POST request body to the console
   urlDatabase[newId] = req.body.longURL
-  res.redirect('/urls');
+  res.redirect(`/redirect/${newId}`);
+});  
+  
+app.get("/u/:shortUrl", (req, res) => {
+  res.redirect(urlDatabase[req.params.shortUrl]);
 });
 
+app.post("/urls/:shortURL/delete", (req, res) => {
+  delete  urlDatabase[req.params.shortURL]
+  res.redirect(`/urls/`);
+});    
+    
+  
+app.post("/urls/:shortURL/update", (req, res) => {
+  console.log(req.body); 
+  urlDatabase[req.params.shortURL] = req.body.longURL
+  res.redirect(`/redirect/${req.params.shortURL}`);
+});    
 
-// app.post('/cars/:car_id', (req, res) => {
-//   const carId = req.params.car_id;
-//   const newColor = req.body.color;
-//   cars[carId].color = newColor;
-//   res.redirect('/cars');
-// });
