@@ -49,14 +49,15 @@ app.get("/redirect/:shortUrl", (req, res) => {
   console.log('res.redirect(urlDatabase[shortUrl]) :>> ', res.redirect(urlDatabase[shortUrl]));
 res.redirect(urlDatabase[shortUrl])
 });
-
+     
 app.post("/newUrl", (req, res) => {
   const newId  =  generateRandomString();
   console.log(req.body);  // Log the POST request body to the console
   urlDatabase[newId] = req.body.longURL
   res.redirect(`/redirect/${newId}`);
 });  
-  
+    
+
 app.get("/u/:shortUrl", (req, res) => {
   res.redirect(urlDatabase[req.params.shortUrl]);
 });
