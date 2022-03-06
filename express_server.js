@@ -13,18 +13,27 @@ app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
 
+//generate user ID
 function generateRandomString() {
   return crypto.randomBytes(3).toString("hex");
-  //console.log('newId :>> ', newId);
+  console.log("newId created :>> ", newId);
 }
 
 //sample DAtabase
 const urlDatabase = {
   b2xVn2: "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com",
-  whatthe: "www.gamefacephtoo.ca",
+  edrftg: "www.gamefacephtoo.ca",
 };
 let userName = "";
+
+app.get("/", (req, res) => {
+  const templateVars = {
+    urls: urlDatabase,
+    userName: req.cookies["userName"],
+  };
+  res.render("urls_index", templateVars);
+});
 
 app.get("/urls", (req, res) => {
   // const myData = { urls: urlDatabase };
@@ -69,34 +78,32 @@ app.get("/redirect/:shortUrl", (req, res) => {
   );
   res.redirect(urlDatabase[shortUrl]);
 });
-     
+// create a new database entry
 app.post("/newUrl", (req, res) => {
   const newId = generateRandomString();
   console.log(req.body); // Log the POST request body to the console
   urlDatabase[newId] = req.body.longURL;
-  res.redirect(`/redirect/${newId}`);
-<<<<<<< HEAD
-});  
-    
-=======
+  res.redirect(`/details/${newId}`);
 });
->>>>>>> feature/cookie
 
+//redirect to longurl
 app.get("/u/:shortUrl", (req, res) => {
   res.redirect(urlDatabase[req.params.shortUrl]);
 });
 
+//press delete button
 app.post("/urls/:shortURL/delete", (req, res) => {
   delete urlDatabase[req.params.shortURL];
   res.redirect(`/urls/`);
 });
 
+//edit long url
 app.post("/urls/:shortURL/update", (req, res) => {
   console.log(req.body);
   urlDatabase[req.params.shortURL] = req.body.longURL;
-  res.redirect(`/redirect/${req.params.shortURL}`);
+  res.redirect(`/details/${req.params.shortURL}`);
 });
-
+//login
 app.post("/login", (req, res) => {
   console.log(req.body.userName);
   res.cookie("userName", req.body.userName);
