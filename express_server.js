@@ -95,7 +95,7 @@ app.get("/u/:shortUrl", (req, res) => {
 app.post("/urls/:shortURL/delete", (req, res) => {
   delete urlDatabase[req.params.shortURL];
   res.redirect(`/urls/`);
-});
+});  
 
 //edit long url
 app.post("/urls/:shortURL/update", (req, res) => {
@@ -108,6 +108,15 @@ app.post("/login", (req, res) => {
   console.log(req.body.userName);
   res.cookie("userName", req.body.userName);
   userName = req.body.userName;
+  console.log("userName :>> ", userName);
+  res.redirect(`/urls/`);
+});
+
+//logout
+app.post("/logout", (req, res) => {
+  console.log(req.body.userName);
+  res.cookie("userName", "");
+  userName = "";
   console.log("userName :>> ", userName);
   res.redirect(`/urls/`);
 });
