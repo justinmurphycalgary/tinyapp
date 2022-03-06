@@ -117,7 +117,7 @@ app.get("/register", (req, res) => {
   res.render("user_new", templateVars);
 });
 
-  
+    
 //press delete button
 app.post("/urls/:shortURL/delete", (req, res) => {
   delete urlDatabase[req.params.shortURL];
@@ -151,5 +151,13 @@ app.post("/logout", (req, res) => {
 app.post("/register", (req, res) => {
   console.log(req.body);
    res.cookie("userName", req.body.email);
-  res.redirect(`/urls/`);
-});
+   userid = generateRandomString()
+   users[userid] = {
+    id :  userid,
+    email : req.body.email,
+    password : req.body.password
+   } 
+   res.redirect(`/urls/`);
+   //console.log('users :>> ', users);
+  },
+);
