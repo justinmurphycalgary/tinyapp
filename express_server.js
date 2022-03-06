@@ -7,24 +7,38 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+          
 //server listener
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
-
+    
 //generate user ID
 function generateRandomString() {
   return crypto.randomBytes(3).toString("hex");
   console.log("newId created :>> ", newId);
 }
-
+  
 //sample DAtabase
 const urlDatabase = {
   b2xVn2: "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com",
   edrftg: "www.gamefacephtoo.ca",
 };
+
+const users = { 
+  "ranjust": {
+    id: "ranjust", 
+    email: "just@example.com", 
+    password: "pwd"
+  },
+ "ranBob": {
+    id: "ranBob", 
+    email: "bob@example.com", 
+    password: "pwd"
+  }
+}
+
 let userName = "";
 
 app.get("/", (req, res) => {
@@ -69,7 +83,7 @@ app.get("/details/:shortURL", (req, res) => {
   };
   res.render("urls_show", templateVars);
 });
-
+  
 app.get("/redirect/:shortUrl", (req, res) => {
   const shortUrl = req.params.shortUrl;
   console.log(
@@ -85,12 +99,25 @@ app.post("/newUrl", (req, res) => {
   urlDatabase[newId] = req.body.longURL;
   res.redirect(`/details/${newId}`);
 });
-
+  
 //redirect to longurl
 app.get("/u/:shortUrl", (req, res) => {
   res.redirect(urlDatabase[req.params.shortUrl]);
 });
+ 
+//register user
+app.get("/register", (req, res) => {
+  const templateVars = {
+    urls: urlDatabase,
+    userName: req.cookies["userName"],
+    shortURL: req.params.shortURL,
+    longURL: urlDatabase[req.params.shortURL],
+    // ... any other vars
+  };
+  res.render("user_new", templateVars);
+});
 
+  
 //press delete button
 app.post("/urls/:shortURL/delete", (req, res) => {
   delete urlDatabase[req.params.shortURL];
@@ -118,5 +145,11 @@ app.post("/logout", (req, res) => {
   res.cookie("userName", "");
   userName = "";
   console.log("userName :>> ", userName);
+  res.redirect(`/urls/`);
+});
+
+app.post("/register", (req, res) => {
+  console.log(req.body);
+   res.cookie("userName", req.body.email);
   res.redirect(`/urls/`);
 });
