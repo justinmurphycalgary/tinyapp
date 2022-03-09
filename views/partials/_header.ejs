@@ -13,23 +13,23 @@
     </div>
     <table>
       <form method="POST" action="
-      <% if(!userName){ %>
+      <% if(!user_id){ %>
         /loginpage
         <% } else { %>
           /logout
           <% }  %>   
       ">
 
-        <% if(!userName)  { %>
+        <% if(!user_id)  { %>
           <a class="nav-item nav-link" href="/registrationpage">Register</a>
           <% } %>
         
-        <% if(userName)  { %>
+        <% if(user_id)  { %>
           <%= "Logged in as :" %>
-          <%= userName    %>
+          <%= user_id    %>
           <% }  %> 
     
-        <% if(userName)  { %>
+        <% if(user_id)  { %>
     
             <button class="btn btn-primary" type="submit">logout</button> 
         
