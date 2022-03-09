@@ -37,25 +37,44 @@ function generateRandomString() {
   
 //sample shortid Database
 const urlDatabase = {
-  b2xVn2: "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com",
-  edrftg: "www.gamefacephtoo.ca",
+  just: {
+    edrftg: "www.gamefacephtoo.ca"
+  },
+  Bob:  {
+    b2xVn2: "http://www.lighthouselabs.ca",
+    "9sm5xK": "http://www.google.com"
+  }
 };
+
 
 //sample user DB
 const users = { 
-  "just": {
+  just: {
     id: "just", 
     email: "just@example.com", 
     password: "pwd"
   },
- "Bob": {
+ Bob: {
     id: "Bob", 
     email: "bob@bob.com", 
     password: "pwd"
   }
 }
   
+
+getUserIDByEmail = function(userEmail){
+  //console.log('getUserIDByEmail email :>> ', userEmail);
+  for (user of Object.values(users)){
+    if (user.email == userEmail) {
+      return user.id
+    }}
+}
+
+getUrlsByUser = function(userEmail){
+  const userID = getUserIDByEmail(userEmail)
+  return urlDatabase[userID]
+}
+
 //let user_id = "";
 //check if userid exists
 userIdExistCheck = function(req, res){
@@ -113,8 +132,9 @@ app.get("/", (req, res) => {
 });
 
 app.get("/urls", (req, res) => {
+  const userurlDatabase = getUrlsByUser(req.cookies["user_id"])
   const templateVars = {
-    urls: urlDatabase,
+    urls: userurlDatabase,
     user_id: req.cookies["user_id"],
   };
   return res.render("urls_index", templateVars);
@@ -136,7 +156,7 @@ app.get("/urls.json", (req, res) => {
 });
 
 app.get("/details/:shortURL", (req, res) => {
- 
+  checkloginStatus(req, res)
   const templateVars = {
     urls: urlDatabase,
     user_id: req.cookies["user_id"],
@@ -157,9 +177,14 @@ app.get("/redirect/:shortUrl", (req, res) => {
 app.post("/newUrl", (req, res) => {
   const newId = generateRandomString();
   console.log(req.body); // Log the POST request body to the console
-  urlDatabase[newId] = req.body.longURL;
+  const userID = getUserIDByEmail(req.cookies["user_id"])
+  urlDatabase[userID][newId] = req.body.longURL
+
+console.log('NEW urlDatabase :>> ', urlDatabase);
   return res.redirect(`/details/${newId}`);
 });
+
+
   
 //redirect to longurl destination address
 app.get("/u/:shortUrl", (req, res) => {
@@ -195,15 +220,17 @@ app.get("/useralreadyexists", (req, res) => {
 //press delete button
 app.post("/urls/:shortURL/delete", (req, res) => {
   console.log('<<: URL DELETED :>> ' );
-  delete urlDatabase[req.params.shortURL];
+  const userID = getUserIDByEmail(req.cookies["user_id"])
+  delete urlDatabase[userID][req.params.shortURL];
   return res.redirect(`/urls/`);
-});  
+});    
 
 //edit long url
 app.post("/urls/:shortURL/update", (req, res) => {
   console.log('<<: URL UPDATED :>> ' );
-  console.log(req.body);
-  urlDatabase[req.params.shortURL] = req.body.longURL;
+  console.log(req.body)
+  const userID = getUserIDByEmail(req.cookies["user_id"])
+  urlDatabase[userID][req.params.shortURL] = req.body.longURL
   return res.redirect(`/details/${req.params.shortURL}`);
 }); 
 
