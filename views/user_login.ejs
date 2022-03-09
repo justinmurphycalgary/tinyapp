@@ -15,27 +15,22 @@
       crossorigin="anonymous"
     />
     <title>TinyApp</title>
-    <%- include('partials/_header') %>
+    <%- include('partials/_header_outside') %>
   </head>
   <body>
    
     <main style="margin: 1em">
      
       <main style="margin: 1em">
-        <h3>User Registration</h3>
-        <form class="form-inline" action="/registeruser" method="POST">
+        <h3>User Login Page</h3>
+        <form class="form-inline" action="/userLogin" method="POST">
           <div class="form-group mb-2">
             <label for="email">Email</label>
             <input
               class="form-control"
               type="email"
               name="email"
-              placeholder="
-              <% if(userName)  { %>
-                <%= userName %>
-                <% } else { %> 
-                  <%= "userName" %>
-                  <% }  %> 
+              placeholder=""
               "
               style="width: 300px; margin: 1em"
             />
@@ -47,7 +42,7 @@
               placeholder="password"
               style="width: 300px; margin: 1em"
             />
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary">Login</button>
           </div>
         </form>
       </main>

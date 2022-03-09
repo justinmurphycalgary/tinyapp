@@ -36,14 +36,14 @@
             <td><%= url %></td>
             <td>
               <%= urls[url] %> </td>
-              <td><span>
-              <form method="POST" action="/urls/<%= url %>/ delete">
-                <button class="btn btn-primary" type="submit">delete</button>
+              <td><div class="btn-group">
+              <form method="POST" action="/urls/<%= url %>/delete">
+                <button class="btn btn-primary" type="submit" >delete</button>
               </form>
               <form method="GET" action="/details/<%= url %>">
-                <button class="btn btn-primary" type="submit">Edit</button>
+                <button class="btn btn-primary" type="submit" >Edit</button>
               </form>
-            </span></td>
+            </div></td>
           </tr>
           <% } %>
 

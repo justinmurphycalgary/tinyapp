@@ -12,30 +12,6 @@
       </div>
     </div>
     <table>
-      <form method="POST" action="
-      <% if(!userName){ %>
-        /loginpage
-        <% } else { %>
-          /logout
-          <% }  %>   
-      ">
-
-        <% if(!userName)  { %>
-          <a class="nav-item nav-link" href="/registrationpage">Register</a>
-          <% } %>
-        
-        <% if(userName)  { %>
-          <%= "Logged in as :" %>
-          <%= userName    %>
-          <% }  %> 
-    
-        <% if(userName)  { %>
-    
-            <button class="btn btn-primary" type="submit">logout</button> 
-        
-          <% } else { %> 
-            <button class="btn btn-primary" type="submit">login</button>
-          <% }  %>    
-          </form>
+      
     </table>
 </header>
