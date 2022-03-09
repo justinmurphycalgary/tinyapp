@@ -18,27 +18,18 @@
     <%- include('partials/_header') %>
   </head>
   <body>
-   
     <main style="margin: 1em">
-     
       <main style="margin: 1em">
-        <h3>User registration error <h5 style="color:red">user email already exists</h5></h3>
+        <h3>
+          User registration error
+          <h5 style="color: red">user email already exists</h5>
+        </h3>
         <form class="form-inline" action="/registeruser" method="POST">
           <div class="form-group mb-2">
             <label for="email">Email</label>
-            <input
-              class="form-control"
-              type="email"
-              name="email"
-              placeholder="
-              <% if(user_id)  { %>
-                <%= user_id %>
-                <% } else { %> 
-                  <%= "user_id" %>
-                  <% }  %> 
-              "
-              style="width: 300px; margin: 1em"
-            />
+            <input class="form-control" type="email" name="email" placeholder="
+            <% if(user_id) { %> <%= user_id %> <% } else { %> <%= "user_id" %>
+            <% } %> " style="width: 300px; margin: 1em" />
             <label for="password">password</label>
             <input
               class="form-control"
@@ -51,8 +42,6 @@
           </div>
         </form>
       </main>
-
-
     </main>
     <!-- Bootstrap JS -->
     <script
